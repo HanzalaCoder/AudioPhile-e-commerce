@@ -22,7 +22,7 @@ export default function Cart() {
 
     
     return(
-        <section className=" cart h-0 flex  overflow-hidden absolute top-28 right-0 w-[400px] shadow-2xl z-50  bg-almostwhite rounded-lg flex-col gap-6">
+        <section className=" cart h-0 flex  overflow-hidden absolute top-28 right-0 w-[350px]  sm:w-[400px] shadow-2xl z-50  bg-almostwhite rounded-lg flex-col gap-6">
             <div className="flex justify-between items-center px-6 mt-6">
                 <h1 className="font-bold text-customblack text-xl" >CART <span className="cartText" >(0)</span></h1>
                 <button className="text-customtext font-semibold hover:underline " onClick={removeAll} >Remove all</button>
