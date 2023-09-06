@@ -84,7 +84,7 @@ export default function Header() {
 
             <section className=" navbar absolute top-20 px-20 bg-neutral-200  h-0 overflow-hidden z-40 right-0 left-0 lg:hidden mx-auto mt-8 shadow-2xl">
                 <nav className="grid grid-cols-1 md:grid-cols-3 place-items-center py-20 gap-24 md:gap-6">
-                     <Link to="headphones" className=" w-[380px] md:w-[230px]   h-[180px] md:h-[160px] bg-zinc-300/50 rounded-lg  shadow-lg  grid place-items-center relative " onClick={clickHide} >
+                     <Link to="headphones" className=" w-[350px] md:w-[230px]   h-[180px] md:h-[160px] bg-zinc-300/50 rounded-lg  shadow-lg  grid place-items-center relative " onClick={clickHide} >
                         <img className="absolute -top-[40%]  w-[55%] md:w-[70%] hover:scale-110 transition-transform delay-100" src="../images/shared/mobile/desktop1.png" alt="" />
                          <h2 className="font-bold text-xl self-end mt-20">HEADPHONES</h2>
                          <div className="flex items-center gap-3">
@@ -93,7 +93,7 @@ export default function Header() {
                          </div>
                     </Link>
                     
-                     <Link to="speakers" className=" w-[380px] md:w-[230px]  h-[180px] md:h-[160px] bg-zinc-300/50 rounded-lg  shadow-lg  grid place-items-center relative" onClick={clickHide}>
+                     <Link to="speakers" className=" w-[350px] md:w-[230px]  h-[180px] md:h-[160px] bg-zinc-300/50 rounded-lg  shadow-lg  grid place-items-center relative" onClick={clickHide}>
                         <img className="absolute -top-[40%]  w-[55%] md:w-[70%] hover:scale-110 transition-transform delay-100" src="../images/shared/mobile/desktop2.png
                         " alt="" />
                          <h2 className="font-bold text-xl self-end mt-20">SPEAKERS</h2>
@@ -103,7 +103,7 @@ export default function Header() {
                          </div>
                     </Link>
                     
-                     <Link to="earphones" className=" w-[380px] md:w-[230px]  h-[180px]  md:h-[160px] bg-zinc-300/50 rounded-lg  shadow-lg  grid place-items-center relative " onClick={clickHide}>
+                     <Link to="earphones" className=" w-[350px] md:w-[230px]  h-[180px]  md:h-[160px] bg-zinc-300/50 rounded-lg  shadow-lg  grid place-items-center relative " onClick={clickHide}>
                         <img className="absolute -top-[40%] md:-top-[30%] w-[55%] md:w-[70%] hover:scale-110 transition-transform delay-100" src="../images/shared/mobile/desktop3.png
                         " alt="" />
                          <h2 className="font-bold text-xl self-end mt-20">EARPHONES</h2>
