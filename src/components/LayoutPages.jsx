@@ -3,11 +3,11 @@ import Header from "./Header"
 import Footer from "./Footer"
 
 
-export default function LayoutPages() {
+export default function LayoutPages({data}) {
 
     return (
         <>
-          <Header />
+          <Header data={data} />
           <Outlet />
           <Footer />
         </>

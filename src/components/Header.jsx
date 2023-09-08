@@ -3,7 +3,7 @@ import { useState } from "react"
 import NavText from "./NavText"
 import Cart from "./Cart"
 
-export default function Header() {
+export default function Header({data}) {
     const [menu,setMenu] = useState(true)
     const [cartToggle, setCartToggle] = useState(false)
 
@@ -65,7 +65,7 @@ export default function Header() {
     return(
         <header className="bg-almostBlack pb-4 pt-4 z-50" >
             <section className=" flex items-center mx-auto w-[90%] py-6 md:max-w-[80%]">
-            <div className="mr-6 lg:hidden z-40 shadow-xl">
+            <div className="mr-6 md:hidden z-40 shadow-xl">
                 <img className="open " onClick={toggleMenu} src= "../images/shared/tablet/icon-hamburger.svg"alt="" />
                 <i className="fa-solid fa-x close hidden text-[#e8e8e8] text-xl" onClick={toggleMenu} ></i>
             </div>
@@ -76,25 +76,25 @@ export default function Header() {
             <div className="ml-auto relative cursor-pointer z-50 ">
                 <img onClick={toggleCart}  src="../images/shared/desktop/icon-cart.svg" alt="" />
                 <div className=" cartTotal  hidden bg-darkorange  text-customwhite rounded-full grid place-items-center absolute w-[20px] -top-5 -right-2" >0</div>
-                <Cart />
+                <Cart data = {data} />
             </div>
            
             
             </section>
 
-            <section className=" navbar absolute top-20 px-20 bg-neutral-200  h-0 overflow-hidden z-40 right-0 left-0 lg:hidden mx-auto mt-8 shadow-2xl">
-                <nav className="grid grid-cols-1 md:grid-cols-3 place-items-center py-20 gap-24 md:gap-6">
-                     <Link to="headphones" className=" w-[350px] md:w-[230px]   h-[180px] md:h-[160px] bg-zinc-300/50 rounded-lg  shadow-lg  grid place-items-center relative " onClick={clickHide} >
-                        <img className="absolute -top-[40%]  w-[55%] md:w-[70%] hover:scale-110 transition-transform delay-100" src="../images/shared/mobile/desktop1.png" alt="" />
-                         <h2 className="font-bold text-xl self-end mt-20">HEADPHONES</h2>
+            <section className=" navbar absolute top-20 px-20 sm:px-4 bg-neutral-200  h-0 overflow-hidden z-40 right-0 left-0 md:hidden mx-auto mt-8 shadow-2xl">
+                <nav className="grid grid-cols-1 sm:grid-cols-3 place-items-center sm:place-content-start py-20 gap-24 sm:gap-4 w-full">
+                     <Link to="headphones" className=" w-[350px] sm:w-[200px]   h-[180px]  bg-zinc-300/50 rounded-lg  shadow-lg  grid place-items-center relative " onClick={clickHide} >
+                        <img className="absolute -top-[40%] sm:-top-[20%]     w-[55%] sm:w-[70%] hover:scale-110 transition-transform delay-100" src="../images/shared/mobile/desktop1.png" alt="" />
+                         <h2 className="font-bold text-xl self-end mt-20 ">HEADPHONES</h2>
                          <div className="flex items-center gap-3">
                             <span className="text-customtext font-bold hover:text-lightorange" >SHOP</span>
                             <img src="../images/shared/desktop/icon-arrow-right.svg" alt="arrow " /> 
                          </div>
                     </Link>
                     
-                     <Link to="speakers" className=" w-[350px] md:w-[230px]  h-[180px] md:h-[160px] bg-zinc-300/50 rounded-lg  shadow-lg  grid place-items-center relative" onClick={clickHide}>
-                        <img className="absolute -top-[40%]  w-[55%] md:w-[70%] hover:scale-110 transition-transform delay-100" src="../images/shared/mobile/desktop2.png
+                     <Link to="speakers" className=" w-[350px] sm:w-[200px]  h-[180px]  bg-zinc-300/50 rounded-lg  shadow-lg  grid place-items-center relative" onClick={clickHide}>
+                        <img className="absolute -top-[40%] sm:-top-[20%]   w-[55%] sm:w-[70%] hover:scale-110 transition-transform delay-100" src="../images/shared/mobile/desktop2.png
                         " alt="" />
                          <h2 className="font-bold text-xl self-end mt-20">SPEAKERS</h2>
                          <div className="flex items-center gap-3">
@@ -103,8 +103,8 @@ export default function Header() {
                          </div>
                     </Link>
                     
-                     <Link to="earphones" className=" w-[350px] md:w-[230px]  h-[180px]  md:h-[160px] bg-zinc-300/50 rounded-lg  shadow-lg  grid place-items-center relative " onClick={clickHide}>
-                        <img className="absolute -top-[40%] md:-top-[30%] w-[55%] md:w-[70%] hover:scale-110 transition-transform delay-100" src="../images/shared/mobile/desktop3.png
+                     <Link to="earphones" className=" w-[350px] sm:w-[200px]  h-[180px]   bg-zinc-300/50 rounded-lg  shadow-lg  grid place-items-center relative " onClick={clickHide}>
+                        <img className="absolute -top-[40%] sm:-top-[15%] w-[55%] sm:w-[70%] hover:scale-110 transition-transform delay-100" src="../images/shared/mobile/desktop3.png
                         " alt="" />
                          <h2 className="font-bold text-xl self-end mt-20">EARPHONES</h2>
                          <div className="flex items-center gap-3">

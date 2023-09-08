@@ -67,6 +67,7 @@ export default function ProductDetail({data}) {
         const price = produtsData.price;
         const container = document.querySelector(".cartContainer");
         const cartTotal = document.querySelector(".cartTotal");
+        const button = document.querySelector(".checkout")
     
         // Create a custom state to store the item count
         let itemCount = amount; 
@@ -76,7 +77,8 @@ export default function ProductDetail({data}) {
         divElement.classList.add(id)
      
         divElement.innerHTML = `
-            <img class="w-[100px]" src=${img} alt="" />
+            <span class = "idNum h-0 w-0">${id} </span>
+            <img class="w-[100px] cartimg" src=${img} alt="" />
             <div>
                 <p class="text-customblack font-semibold break-words text-lg">${name}</p>
                 <span class="text-customtext font-semibold price ">$${price * itemCount}</span>
@@ -110,6 +112,7 @@ export default function ProductDetail({data}) {
         }
         container.appendChild(divElement);
         cartTotal.classList.remove("hidden");
+    
         calculateTotal()
 
         // Add event listeners for the "+" and "-" buttons

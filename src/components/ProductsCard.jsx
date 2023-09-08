@@ -34,7 +34,7 @@ export default function productsCard({data,id1,index}) {
                 {newProduct ? (<h1 className="tracking-[.6em] text-darkorange">
                     NEW PRODUCT</h1>
                 ) : null}
-                <h1 className="text-5xl font-bold uppercase tracking-[.1em] md:text-[3.5rem]  leading-[3.5rem]">
+                <h1 className="text-4xl font-bold uppercase tracking-[.1em] md:text-[3.5rem]  leading-[3.5rem]">
                     {data.name}
                 </h1>
                 <p className="text-customtext font-semibold max-w-[45ch] lg:font-normal ">{data.description} </p>
