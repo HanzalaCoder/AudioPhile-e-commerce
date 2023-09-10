@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 export default function Cart({data}) {
+    let isActive  = true
     const navigate = useNavigate();
     function removeAll() {
         const container = document.querySelector(".cartContainer")
@@ -14,11 +15,11 @@ export default function Cart({data}) {
             childrens.forEach(child => {
                 container.removeChild(child)
             })
-
         }
         Total.textContent = "$0"
         cartTotal.textContent = "0"
         cartTotal.classList.add("hidden")
+        button.disabled = true
         cartText.textContent = `(${0})`
     }
 
@@ -33,7 +34,7 @@ export default function Cart({data}) {
 
 
     const handleCheckoutClick = () => {
-        console.log("hi")
+    
         toggleCart()
         const container = Array.from(document.querySelector(".cartContainer").children)
         const total = parseInt(document.querySelector(".total").textContent.split("$")[1])
@@ -43,17 +44,6 @@ export default function Cart({data}) {
                 let count  = item.querySelector(".item-count").textContent
                 let id = parseInt(item.querySelector(".idNum ").textContent)
                 let name = data[id-1].shortName
-
-                /* return (
-                    <div key={id} className="flex items-center gap-4">
-                      <img className="w-[100px]" src={image} alt="" />
-                      <div className="flex flex-col gap-2">
-                        <h2 className="font-semibold text-lg text-customblack">{name}</h2>
-                        <span className="font-semibold text-customtext">$ {price}</span>
-                      </div>
-                      <h4 className="font-semibold text-customtext">X{count}</h4>
-                    </div>
-                ) */;
                 return {
                     id,
                     name,
@@ -63,8 +53,6 @@ export default function Cart({data}) {
                 };
                 
         })
-        console.log(arrayChilds)
-    
         // Programmatically navigate to the /checkout route and pass the 'list' as state
         navigate('/Checkout', { state: { data: arrayChilds,total :total  } });
       };
@@ -85,10 +73,12 @@ export default function Cart({data}) {
                 <h3>TOTAL</h3>
                 <h3 className="total" >$0</h3>
             </div>
-          
-            <button className="bg-darkorange checkout w-[90%]  px-6  mx-auto  py-3   m-6 text-customwhite font-semibold rounded-md hover:bg-lightorange disabled:bg-lightorange" 
-            onClick={handleCheckoutClick} > CHECKOUT </button>
-       
+            <div onClick={handleCheckoutClick} className='w-[90%] mx-auto'>
+                <button className="bg-darkorange checkout w-[100%]  px-6  mx-auto  py-3   m-6 text-customwhite font-semibold rounded-md hover:bg-lightorange disabled:bg-lightorange" 
+                 disabled= {isActive ?true : false} > CHECKOUT </button>
+
+            </div>
+         
            
         </section>
     )

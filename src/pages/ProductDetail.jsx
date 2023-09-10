@@ -77,7 +77,7 @@ export default function ProductDetail({data}) {
         divElement.classList.add(id)
      
         divElement.innerHTML = `
-            <span class = "idNum h-0 w-0">${id} </span>
+            <span class = "idNum h-0 w-0 hidden">${id} </span>
             <img class="w-[100px] cartimg" src=${img} alt="" />
             <div>
                 <p class="text-customblack font-semibold break-words text-lg">${name}</p>
@@ -91,7 +91,7 @@ export default function ProductDetail({data}) {
         `;
 
         const childrens = Array.from(container.children)
-        let itemAlreadyExists = false; // Fla
+        let itemAlreadyExists = false; 
         childrens.forEach(children => {
         if(children.classList.contains(id)) {
                 const count = parseInt(divElement.querySelector(".item-count").textContent);
@@ -112,6 +112,7 @@ export default function ProductDetail({data}) {
         }
         container.appendChild(divElement);
         cartTotal.classList.remove("hidden");
+        button.disabled = false;
     
         calculateTotal()
 
