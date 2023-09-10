@@ -1,12 +1,23 @@
 import { useParams } from "react-router-dom"
-import { useState } from "react"
+import { useState,useContext } from "react"
 import { Link } from "react-router-dom"
 import Catagaries from "../components/Catagaries"
 import TextCard from "../components/TextCard"
-
+import {stateContext}  from "../components/LayoutPages"
 
 export default function ProductDetail({data}) {
+    const [array, setArray] = useContext(stateContext)
     const [amount,setAmount] = useState(1)
+    const parm = useParams()
+
+    const name = parm.id1
+    const id = parm.id2
+    let produtsData = data.filter(cardinfo => {
+       if (cardinfo.slug === id) {
+            return cardinfo
+       }
+    }) 
+    produtsData = produtsData[0]
 
     function addAmount() {
         setAmount(amount => amount + 1)
@@ -19,146 +30,71 @@ export default function ProductDetail({data}) {
             setAmount(1)
         }
     }
-
-    function calculateTotal() {
-        let prices = document.querySelectorAll(".price")
-        prices = Array.from(prices)
-        const Total = document.querySelector(".total")
-        let total = 0
-
-        prices.forEach(price => {
-           let pricetag =  price.textContent.split("$")[1]
-           total += parseInt(pricetag)
-        })
-        Total.textContent =  "$ " + total
-
-        const quantity = Array.from(document.querySelectorAll(".item-count"))
-
-        const totalcart = document.querySelector(".cartTotal")
-        const totalText = document.querySelector(".cartText")
-
-        let cartTotal = 0
-        quantity.forEach(quant => {
-            const count = quant.textContent
-            cartTotal += parseInt(count)
-
-        })
-        totalcart.textContent = cartTotal
-        totalText.textContent = `(${cartTotal})`
-    }
-
-
-
-
+   
     function sendItemtoCart() {
+        let dataarray  = {}
         const done = document.querySelector(".done")
         done.classList.remove("scale-0")
         done.classList.add("scale-100")
-      
         setTimeout(()=> {
             done.classList.remove("scale-100")
             done.classList.add("scale-0")
-
         },1000)
-
-        const id = produtsData.id
+ 
+        const id = parseInt(produtsData.id)
         const img = produtsData.cartImage;
         const name = produtsData.name;
-        const price = produtsData.price;
-        const container = document.querySelector(".cartContainer");
-        const cartTotal = document.querySelector(".cartTotal");
+        let price = parseInt(produtsData.price);
+        let cartImg = produtsData.cartImage
+        let shortName = produtsData.shortName
+        const cartTotal = document.querySelector(".cartTotal"); 
         const button = document.querySelector(".checkout")
-    
-        // Create a custom state to store the item count
-        let itemCount = amount; 
-    
-        const divElement = document.createElement("div");
-        divElement.classList.add("flex", "w-full", "items-center", "gap-2");
-        divElement.classList.add(id)
-     
-        divElement.innerHTML = `
-            <span class = "idNum h-0 w-0 hidden">${id} </span>
-            <img class="w-[100px] cartimg" src=${img} alt="" />
-            <div>
-                <p class="text-customblack font-semibold break-words text-lg">${name}</p>
-                <span class="text-customtext font-semibold price ">$${price * itemCount}</span>
-            </div>
-            <div class="flex justify-between w-[80px] py-2 bg-neutral-200 px-4 ml-auto">
-                <span class="cursor-pointer decrease-count">-</span>
-                <span class="item-count">${amount}</span>
-                <span class="cursor-pointer increase-count">+</span>
-            </div>
-        `;
-
-        const childrens = Array.from(container.children)
-        let itemAlreadyExists = false; 
-        childrens.forEach(children => {
-        if(children.classList.contains(id)) {
-                const count = parseInt(divElement.querySelector(".item-count").textContent);
-                const totalRs =  parseInt(divElement.querySelector(".price").textContent.split("$")[1])
-                let tempCount = parseInt(children.querySelector(".item-count").innerText)
-                let tempPrice =  parseInt(children.querySelector(".price").innerText.split("$")[1])
-                tempCount += count
-                tempPrice += totalRs
-                children.querySelector(".item-count").textContent = tempCount
-                children.querySelector(".price").textContent = "$ " + tempPrice
-                calculateTotal()
-                itemAlreadyExists = true
-                return
-            }
-        })
-        if (itemAlreadyExists) {
-            return
+        dataarray = {
+            id,
+            img,
+            name,
+            price: price * amount,
+            count: amount,
+            cartImg,
+            shortName,
         }
-        container.appendChild(divElement);
+        let itemAlreadyExists = false
+        let updatedArray = []
+        if (array) {
+            updatedArray = array.map(singleArray => {
+                if (singleArray.id === id) {
+                    itemAlreadyExists = true;
+                 
+                    return {
+                       
+                        ...singleArray,
+                        price: singleArray.price + price * amount,
+                        count: singleArray.count + amount
+                    };
+                }
+                return singleArray;
+            });
+        }
         cartTotal.classList.remove("hidden");
+       let i =  (parseInt(cartTotal.textContent) + amount)
+        cartTotal.textContent = i
         button.disabled = false;
+
+        setAmount(1)
+        if (itemAlreadyExists) {
+            setArray(updatedArray);
+            return;
+        }
+        setArray(prev => {
+            return [
+                ...prev,
+                dataarray
+            ]
+        })
+       
+        
+    } 
     
-        calculateTotal()
-
-        // Add event listeners for the "+" and "-" buttons
-        const decreaseButton = divElement.querySelector(".decrease-count");
-        const increaseButton = divElement.querySelector(".increase-count");
-        const itemCountElement = divElement.querySelector(".item-count");
-        const itemPrice = divElement.querySelector(".price")
-    
-
-        decreaseButton.addEventListener("click", () => {
-            if (itemCount > 0) {
-                itemCount--;
-                itemCountElement.textContent = itemCount;
-                itemPrice.textContent = "$ " + (itemCount * price)
-                calculateTotal()
-            }  if (itemCount < 1) {
-                container.removeChild(divElement)
-             
-            }
-
-        });
-    
-        increaseButton.addEventListener("click", () => {
-            itemCount++;
-            itemCountElement.textContent = itemCount;
-            itemPrice.textContent = "$ " + (itemCount * price)
-            calculateTotal()
-        });
-    }
-    
-    
-
-    
-
-    const parm = useParams()
-    const name = parm.id1
-    const id = parm.id2
-    let produtsData = data.filter(cardinfo => {
-       if (cardinfo.slug === id) {
-            return cardinfo
-       }
-    }) 
-    produtsData = produtsData[0]
-
-
 
     return (
         <>
@@ -213,21 +149,21 @@ export default function ProductDetail({data}) {
 
                     </ul>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6 rounded-lg">
-                    <div class="md:row-span-2 rounded-lg">
-                        <img class="w-full md:hidden" src={produtsData.gallery.first.mobile} alt="" />
-                        <img class="w-full hidden md:block lg:hidden" src={produtsData.gallery.first.tablet} alt="" />
-                        <img class="w-full hidden lg:block" src={produtsData.gallery.first.desktop} alt="" />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6 rounded-lg">
+                    <div className="md:row-span-2 rounded-lg">
+                        <img className="w-full md:hidden" src={produtsData.gallery.first.mobile} alt="" />
+                        <img className="w-full hidden md:block lg:hidden" src={produtsData.gallery.first.tablet} alt="" />
+                        <img className="w-full hidden lg:block" src={produtsData.gallery.first.desktop} alt="" />
                     </div>
-                    <div class="md:col-start-2 md:row-start-1 rounded-lg">
-                        <img class="w-full md:hidden" src={produtsData.gallery.second.mobile} alt="" />
-                        <img class="w-full hidden md:block lg:hidden" src={produtsData.gallery.second.tablet} alt="" />
-                        <img class="w-full hidden lg:block" src={produtsData.gallery.second.desktop} alt="" />
+                    <div className="md:col-start-2 md:row-start-1 rounded-lg">
+                        <img className="w-full md:hidden" src={produtsData.gallery.second.mobile} alt="" />
+                        <img className="w-full hidden md:block lg:hidden" src={produtsData.gallery.second.tablet} alt="" />
+                        <img className="w-full hidden lg:block" src={produtsData.gallery.second.desktop} alt="" />
                     </div>
-                    <div class="md:col-span-2 rounded-lg">
-                        <img class="w-full md:hidden" src={produtsData.gallery.third.mobile} alt="" />
-                        <img class=" hidden md:block lg:hidden" src={produtsData.gallery.third.tablet} alt="" />
-                        <img class=" w-full hidden lg:block" src={produtsData.gallery.third.desktop} alt="" />
+                    <div className="md:col-span-2 rounded-lg">
+                        <img className="w-full md:hidden" src={produtsData.gallery.third.mobile} alt="" />
+                        <img className=" hidden md:block lg:hidden" src={produtsData.gallery.third.tablet} alt="" />
+                        <img className=" w-full hidden lg:block" src={produtsData.gallery.third.desktop} alt="" />
                     </div>
                 </div>
               

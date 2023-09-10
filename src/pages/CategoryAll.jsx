@@ -31,14 +31,7 @@ export default function CatagoryAll({data}) {
             CardsList =   productsdata.map((card,index )=> {
               return  <ProductsCard key={card.id} data= {card} id1= {id1} index= {index}  /> 
 
-            })
-
-     }
-
-    
-     
-
-
+        })}
     return (
         <main>
             {showProductDetail ? (
@@ -56,21 +49,12 @@ export default function CatagoryAll({data}) {
                             </div>
                             <Catagaries />
                             <TextCard />
-
                         </section>
-                        
-                        
-
                     ): (
                         <h1>Loading...</h1>
-
-                    )
-                }
-
+                    )}
                 </section>
-            )
-            
-            }
+            )}
         </main>
     );
 }

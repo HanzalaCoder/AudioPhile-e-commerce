@@ -9,12 +9,11 @@ export default function Footer() {
         <footer className="bg-footerbg mt-auto">
             <section className="flex w-[90%]  lg:max-w-[80%] md:max-w-[85%] items-center justify-center flex-col gap-8 py-6 relative md:items-start md:mx-auto">
                 <div className="h-[8px] w-[100px] bg-lightorange absolute top-0 "></div>
-                <NavLink to= "/" className= "mt-12"><img   src="../images/shared/desktop/logo.svg" alt="" srcset="" /></NavLink>
+                <NavLink to= "/" className= "mt-12"><img   src="../images/shared/desktop/logo.svg" alt="" /></NavLink>
                 
                 <nav className="text-customwhite  gap-6  flex flex-col items-center md:flex-row flex-wrap lg:absolute lg:top-28 lg:left-[65%]">
                     <NavLink to="."
                     style={({isActive})=> isActive ? activeStyles : null }>
-
                         HOME
                     </NavLink>
                     <NavLink to="headphones" 
