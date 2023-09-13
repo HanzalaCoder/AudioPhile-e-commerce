@@ -4,20 +4,19 @@ import { Link } from "react-router-dom"
 import Catagaries from "../components/Catagaries"
 import TextCard from "../components/TextCard"
 import {stateContext}  from "../components/LayoutPages"
-
 export default function ProductDetail({data}) {
     const [array, setArray] = useContext(stateContext)
     const [amount,setAmount] = useState(1)
     const parm = useParams()
-
-    const name = parm.id1
     const id = parm.id2
+
     let produtsData = data.filter(cardinfo => {
        if (cardinfo.slug === id) {
             return cardinfo
        }
     }) 
     produtsData = produtsData[0]
+
 
     function addAmount() {
         setAmount(amount => amount + 1)
@@ -30,7 +29,6 @@ export default function ProductDetail({data}) {
             setAmount(1)
         }
     }
-   
     function sendItemtoCart() {
         let dataarray  = {}
         const done = document.querySelector(".done")
@@ -46,8 +44,7 @@ export default function ProductDetail({data}) {
         const name = produtsData.name;
         let price = parseInt(produtsData.price);
         let cartImg = produtsData.cartImage
-        let shortName = produtsData.shortName
-        const cartTotal = document.querySelector(".cartTotal"); 
+        const cartTotalel = document.querySelector(".cartTotal"); 
         const button = document.querySelector(".checkout")
         dataarray = {
             id,
@@ -56,7 +53,6 @@ export default function ProductDetail({data}) {
             price: price * amount,
             count: amount,
             cartImg,
-            shortName,
         }
         let itemAlreadyExists = false
         let updatedArray = []
@@ -64,9 +60,7 @@ export default function ProductDetail({data}) {
             updatedArray = array.map(singleArray => {
                 if (singleArray.id === id) {
                     itemAlreadyExists = true;
-                 
                     return {
-                       
                         ...singleArray,
                         price: singleArray.price + price * amount,
                         count: singleArray.count + amount
@@ -75,27 +69,25 @@ export default function ProductDetail({data}) {
                 return singleArray;
             });
         }
-        cartTotal.classList.remove("hidden");
-       let i =  (parseInt(cartTotal.textContent) + amount)
-        cartTotal.textContent = i
+        cartTotalel.classList.remove("hidden");
         button.disabled = false;
-
         setAmount(1)
         if (itemAlreadyExists) {
+            localStorage.setItem("cart",JSON.stringify(updatedArray))
             setArray(updatedArray);
             return;
         }
         setArray(prev => {
-            return [
+            const newArray = [
                 ...prev,
                 dataarray
             ]
+            localStorage.setItem("cart",JSON.stringify(newArray))
+            return newArray
         })
        
-        
     } 
     
-
     return (
         <>
          <section className="card w-[90%] mx-auto md:max-w-[80%]  flex flex-col items-center" >
