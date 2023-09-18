@@ -15,10 +15,7 @@ export default function Checkout() {
         emoneynumber: "",
         emoneypin: "",
         payment : "emoney",
-
-    })
-
-
+     })
     function handleFormChange(event) {
         const {name,value,type,checked} = event.target
         setFormStata(prev => {
@@ -30,9 +27,6 @@ export default function Checkout() {
         /* should i validate inputs here after the form state updates if no than where  */
         setButtonActive(false)
     }
- 
-
-
     let total = 0
     let ShippingFee = 100
     countTotal()
@@ -53,12 +47,10 @@ export default function Checkout() {
             total += item.price
         })
     }
-
     function foamAction(e) {
         e.preventDefault()
         console.log("submited")
     }
-    console.log(formState)
     return (
         <section className='bg-neutral-200/50'>
         <form>
@@ -213,8 +205,7 @@ export default function Checkout() {
                             <div className='w-[100%] mx-auto bg-darkorange p text mt-6 text-center rounded-md '>
                                 <button onClick={foamAction} type='submit' className='text-customwhite w-full submit py-4 font-semibold uppercase hover:bg-lightorange rounded-md disabled:bg-lightorange' disabled= {buttonActive}>CONTINUE & PAy</button>
                             </div>
-            </div>
-               
+            </div> 
         </section>
         </form>
         </section>
