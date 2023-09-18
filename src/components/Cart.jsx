@@ -92,7 +92,7 @@ export default function Cart({data}) {
     const [total , setTotal] = useState(0)
     const cartTotalelement = document.querySelector(".cartTotal");
     if (cartTotalstate.count > 0) {
-        cartTotalelement.classList.toggle("hidden")
+        cartTotalelement.classList.remove("hidden")
     }
     let items  = []
     if(arraydata) {
@@ -117,6 +117,7 @@ export default function Cart({data}) {
         calculateCount()
         calculateTotal()
     },[arraydata])
+    
     return(
         <section className=" cart h-0 flex  overflow-hidden absolute top-28 right-0 w-[90vw]  sm:w-[420px] shadow-2xl z-50  bg-almostwhite rounded-lg flex-col gap-6">
             <div className="flex justify-between items-center px-6 mt-6">
