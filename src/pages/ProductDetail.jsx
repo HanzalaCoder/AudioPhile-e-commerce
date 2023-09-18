@@ -44,8 +44,6 @@ export default function ProductDetail({data}) {
         const name = produtsData.name;
         let price = parseInt(produtsData.price);
         let cartImg = produtsData.cartImage
-        const cartTotalel = document.querySelector(".cartTotal"); 
-        const button = document.querySelector(".checkout")
         dataarray = {
             id,
             img,
@@ -69,8 +67,6 @@ export default function ProductDetail({data}) {
                 return singleArray;
             });
         }
-        cartTotalel.classList.remove("hidden");
-        button.disabled = false;
         setAmount(1)
         if (itemAlreadyExists) {
             localStorage.setItem("cart",JSON.stringify(updatedArray))

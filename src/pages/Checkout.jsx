@@ -1,34 +1,61 @@
-import { useContext,useState } from 'react';
+import { useContext,useState,useRef } from 'react';
 import {stateContext}  from "../components/LayoutPages"
 import Input from '../components/Input';
+import CheckoutConfirmation from '../components/CheckoutConfirmation';
+
 export default function Checkout() {
     const [dataArray, setDataArray] = useContext(stateContext)
-    const [buttonActive,setButtonActive] = useState(true)
+    const [buttonDisable,setButtonDisable] = useState(true)
+    const [confirmtion,setConfirmation] = useState("-translate-x-[250%] ")
+
     const [formState,setFormStata] = useState({
-        name  : "",
-        email : "",
-        phone: "",
-        address: "",
-        zip :"",
-        city : "",
-        country : "",
-        emoneynumber: "",
-        emoneypin: "",
-        payment : "emoney",
+        name  : {value : "", error : ""},
+        email : {value : "", error : ""},
+        phone: {value : "", error : ""},
+        address: {value : "", error : ""},
+        zip :{value : "", error : ""},
+        city : {value : "", error : ""},
+        country : {value : "", error : ""},
+        emoneynumber: {value : "", error : ""},
+        emoneypin: {value : "", error : ""},
+        payment : {value : "emoney", error : ""},
      })
     function handleFormChange(event) {
         const {name,value,type,checked} = event.target
-        setFormStata(prev => {
-            return {
-                ...prev,
-                [name] : type === "checkbox" ? checked : value
+        let error = ""
+        if (name === "name") {
+            if(!validateString(value)) {
+                error = "Name can't be empty"
             }
-        })
-        /* should i validate inputs here after the form state updates if no than where  */
-        setButtonActive(false)
+        } else if (name === "email") {
+            if(!validateEmail(value)) {
+                error = "Enter a valid email"
+            }
+        } else if (name === "phone" || name === "zip"|| name === "emoneynumber" || name === "emoneypin") {
+            if(!isNumeric(value)) {
+                error = `Enter a correct ${name}`
+            }
+        } else if (name === "address" || name === "city" || name === "country") {
+            if(!validateString(value)) {
+                error =  `Enter a correct ${name}`
+            }
+        } 
+        // Create a copy of the formState and update the specific field
+        const updatedFormState = {
+        ...formState,
+        [name]: {
+            value: type === "checkbox" ? checked : value,
+            error: error,
+        },
+        };
+
+        // Check if all fields are valid and enable/disable the button
+        const isValid = Object.values(updatedFormState).every((field) => field.error === "" && field.value !== "");
+        setFormStata(updatedFormState);
+        setButtonDisable(!isValid);
     }
-    let total = 0
     let ShippingFee = 100
+    let total = 0
     countTotal()
     let items = dataArray.map(item => {
         return (
@@ -49,10 +76,23 @@ export default function Checkout() {
     }
     function foamAction(e) {
         e.preventDefault()
-        console.log("submited")
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setConfirmation("-translate-x-[0%]")
     }
+
+    function validateString(name) {
+        return name.trim() !== "";
+      }
+      
+      function validateEmail(email) {
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailPattern.test(email);
+    }
+    function isNumeric(value) {
+        return !isNaN(value);
+      }
     return (
-        <section className='bg-neutral-200/50'>
+        <section className='bg-neutral-200/50 relative'>
         <form>
             <section className=" py-20 flex flex-col gap-8 max-lg:gap-4 lg:flex-row lg:w-[90%] lg:mx-auto lg:justify-center ">
                 <div className=' bg-customwhite shadow-2xl w-[90vw] md:w-[80vw] lg:w-[60%] lg:mx-0     py-10 px-6 mx-auto rounded-xl '>
@@ -64,28 +104,31 @@ export default function Checkout() {
                                 type="text"
                                 placeholder="Hanzala Khan"
                                 handleFormChange= {handleFormChange}
-                                value={formState.name}
+                                value={formState.name.value}
                                 name = "name"
-                                error="Name Can't be Empty"
+                                error={formState.name.error}
                                 spread = "col-span-1"
+                                liveValidation={true}
                             />
                             <Input
                                 type="email"
                                 placeholder="hanzala@outlook.gmail.com"
                                 handleFormChange= {handleFormChange}
-                                value={formState.email}
+                                value={formState.email.value}
                                 name = "email"
-                                error="Enter valid Email"
+                                error={formState.email.error}
                                 spread = "col-span-1"
+                                liveValidation={true}
                             />
                             <Input
                                 type="text"
                                 placeholder="+923125454547"
                                 handleFormChange= {handleFormChange}
-                                value={formState.phone}
+                                value={formState.phone.value}
                                 name = "phone"
-                                error="enter valid phone number"
+                                error={formState.phone.error}
                                 spread = "col-span-1"
+                                liveValidation={true}
                             />
                        </section>
                     </section>
@@ -96,37 +139,41 @@ export default function Checkout() {
                                 type="text"
                                 placeholder="5th street manhantan"
                                 handleFormChange= {handleFormChange}
-                                value={formState.address}
+                                value={formState.address.value}
                                 name = "address"
-                                error="address Can't be Empty"
+                                error={formState.address.error}
                                 spread = "md:col-span-2"
+                                liveValidation={true}
                             />
                             <Input
                                 type="text"
                                 placeholder="7870"
                                 handleFormChange= {handleFormChange}
-                                value={formState.zip}
+                                value={formState.zip.value}
                                 name = "zip"
-                                error="Enter valid zip code"
+                                error={formState.zip.error}
                                 spread = ""
+                                liveValidation={true}
                             />
                             <Input
                                 type="text"
                                 placeholder="manhatan New York"
                                 handleFormChange= {handleFormChange}
-                                value={formState.city}
+                                value={formState.city.value}
                                 name = "city"
-                                error="enter city name"
+                                error={formState.city.error}
                                 spread = ""
+                                liveValidation={true}
                             />
                             <Input
                                 type="text"
                                 placeholder="USA"
                                 handleFormChange= {handleFormChange}
-                                value={formState.country}
+                                value={formState.country.value}
                                 name = "country"
-                                error="enter country name"
+                                error={formState.country.error}
                                 spread = ""
+                                liveValidation={true}
                             />
                        </section>
                     </section>
@@ -138,7 +185,7 @@ export default function Checkout() {
                                 id='eMoney'
                                 name="payment"
                                 value="emoney"
-                                checked={formState.payment === "emoney"}
+                                checked={formState.payment.value === "emoney"}
                                 onChange={handleFormChange}
                                 />
                                 <label htmlFor="eMoney">e-money</label>
@@ -149,30 +196,32 @@ export default function Checkout() {
                                 id='cash'
                                 name="payment"
                                 value="cash"
-                                checked={formState.payment === "cash"}
+                                checked={formState.payment.value === "cash"}
                                 onChange={handleFormChange}
                                 />
                                 <label htmlFor="cash">Cash on Delivery</label>
                             </div>
-                            {formState.payment === "emoney" && 
+                            {formState.payment.value === "emoney" && 
                                 <>
                                   <Input
                                     type="text"
                                     placeholder="567849393"
                                     handleFormChange= {handleFormChange}
-                                    value={formState.emoneynumber}
+                                    value={formState.emoneynumber.value}
                                     name = "emoneynumber"
-                                    error="enter emoney number"
+                                    error={formState.emoneynumber.error}
                                     spread = ""
+                                    liveValidation={true}
                                   />
                                   <Input
                                     type="text"
                                     placeholder="4321"
                                     handleFormChange= {handleFormChange}
-                                    value={formState.emoneypin}
+                                    value={formState.emoneypin.value}
                                     name = "emoneypin"
-                                    error="enter emoney pin"
+                                    error={formState.emoneypin.error}
                                     spread = ""
+                                    liveValidation={true}
                                   />
                                 </>
                             }
@@ -203,11 +252,13 @@ export default function Checkout() {
                                 <h3 className='text-darkorange font-bold '>${total + ShippingFee}</h3>
                             </div>
                             <div className='w-[100%] mx-auto bg-darkorange p text mt-6 text-center rounded-md '>
-                                <button onClick={foamAction} type='submit' className='text-customwhite w-full submit py-4 font-semibold uppercase hover:bg-lightorange rounded-md disabled:bg-lightorange' disabled= {buttonActive}>CONTINUE & PAy</button>
+                                <button onClick={foamAction} type='submit' className='text-customwhite w-full submit py-4 font-semibold uppercase hover:bg-lightorange rounded-md disabled:bg-lightorange' disabled= {buttonDisable}>CONTINUE & PAy</button>
                             </div>
             </div> 
         </section>
         </form>
+        <CheckoutConfirmation value= {confirmtion} />
+
         </section>
     )
 }

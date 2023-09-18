@@ -54,14 +54,10 @@ export default function Cart({data}) {
     }
     function removeAll() {
         const Total = document.querySelector(".total")
-        const cartTotal = document.querySelector(".cartTotal")
         const cartText = document.querySelector(".cartText")
-        const button = document.querySelector(".checkout")
         localStorage.removeItem("cart");
         Total.textContent = "$0"
         cartTotal.textContent = "0"
-        cartTotal.classList.add("hidden")
-        button.disabled = true
         cartText.textContent = `(${0})`
         setArrayData([])
         
@@ -104,7 +100,7 @@ export default function Cart({data}) {
                         <p className="text-customblack font-semibold break-words text-lg max-w-[12ch]">{item.name}</p>
                         <span className="text-customtext font-semibold price ">${item.price}</span>
                     </div>
-                    <div className="flex justify-between w-[60px] sm:w-[80px] py-2 bg-neutral-200 px-2 ml-auto">
+                    <div className="flex justify-between w-[80px] sm:w-[100px] py-2 bg-neutral-200 px-2 ml-auto">
                         <span className="cursor-pointer" onClick={updatePrice}>-</span>
                         <span className="item-count">{item.count}</span>
                         <span className="cursor-pointer"  onClick={updatePrice}>+</span>
@@ -133,7 +129,7 @@ export default function Cart({data}) {
             </div>
             <Link  className='w-[90%] mx-auto' onClick={toggleCart} to="/Checkout">
                 <button className="bg-darkorange checkout w-[100%]  px-6  mx-auto  py-3   m-6 text-customwhite font-semibold rounded-md hover:bg-lightorange disabled:bg-lightorange" 
-                 disabled= {true} > CHECKOUT </button>
+                 disabled= {arraydata.length === 0 ? true : false} > CHECKOUT </button>
 
             </Link>
         </section>

@@ -81,7 +81,7 @@ export default function Header({data}) {
                 <div id="overlay2" className="fixed inset-0 bg-black opacity-70 z-30 hidden "></div>
                 <div className="ml-auto relative cursor-pointer z-50 ">
                     <img onClick={toggleCart}  src="../images/shared/desktop/icon-cart.svg" alt="" />
-                    <div className="cartTotal hidden bg-darkorange  text-customwhite rounded-full grid place-items-center absolute w-[20px] -top-5 -right-2" >{cartTotalState.count}</div>
+                    <div className={`cartTotal bg-darkorange  text-customwhite rounded-full place-items-center absolute w-[20px] -top-5 -right-2 ${arrayData.length === 0 ? "hidden": "grid"}`}>{cartTotalState.count}</div>
                     <Cart data = {data} />
                 </div>
             </section>

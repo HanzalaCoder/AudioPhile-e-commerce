@@ -6,8 +6,6 @@ export default function productsCard({data,id1,index}) {
     let classVar2 = "flex-row"
     let newProduct = false
    
-  
-
     if (data.new) {
         classVar = "order-first"
         newProduct = true
@@ -19,10 +17,6 @@ export default function productsCard({data,id1,index}) {
         classVar2 = "flex-row"
 
     }
- 
-
-
-
     return (
         <section className={`w-[90%] mx-auto md:max-w-[80%] ${classVar} flex flex-col items-center gap-6 lg:items-start lg:${classVar2} lg:gap-16 xl:gap-36  ` }>
             <div className="w-[90%] lg:w-[50%] mb-10">
