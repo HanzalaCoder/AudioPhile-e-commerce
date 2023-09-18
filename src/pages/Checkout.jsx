@@ -76,7 +76,7 @@ export default function Checkout() {
     }
     function foamAction(e) {
         e.preventDefault()
-        scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo(0, 0);
         setConfirmation("-translate-x-[0%]")
     }
 
